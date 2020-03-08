@@ -1,0 +1,198 @@
+<div class="content">
+  <button type="button" mdbBtn outline="true" mdbWavesEffect color="purple"
+        data-toggle="modal" data-target="#basicExample" (click)="addFrame.show();getUniteStructurelle()">Ajouter<mdb-icon fas icon="plus-circle" class="ml-2" aria-hidden="true"></mdb-icon></button>
+        <!-- Default checked -->
+
+        <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="md-form">
+          <input type="text" class="form-control" [(ngModel)]="searchText" (keyup)="searchItems()" id="search-input"
+                 mdbInput>
+          <label for="search-input">Search</label>
+        </div>
+      </div>
+      <table mdbTable #tableEl="mdbTable" stickyHeader="true" hover="true" striped="true" class="z-depth-1">
+        <thead class="sticky-top">
+        <tr>
+          <th *ngFor="let head of headElements; let i = index" [mdbTableSort]="elements" [sortBy]="headElements[i]"
+              scope="col">{{head | titlecase}} <mdb-icon fas icon="sort"></mdb-icon>
+          </th>
+        </tr>
+        </thead>
+        <tbody #row>
+        <tr mdbTableCol  *ngFor="let g of elements; let i = index">
+          <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{g.nom}}</th>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{g.prenom}}</td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{g.email}}</td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{g.tel}}</td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{g.cin}}</td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{g.uniteStructurelle.intitule}}</td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" [id]="'customSwitch'+g.id"  [checked]="g.active" (change)="onChange($event,g.id)" >
+              <label class="custom-control-label" [for]="'customSwitch'+g.id">{{g.active?'Actif':'Inactif'}}</label>
+            </div>
+          </td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
+        
+            <button mdbBtn color="teal" rounded="true" size="sm" type="button" class="m-0" data-toggle="modal" data-target="#basicExample" mdbWavesEffect (click)="getGestionnaire(g);editFrame.show()">Editer</button>
+          </td>
+             
+
+
+
+        </tr>
+        </tbody>
+        <tfoot class="grey lighten-5 w-100">
+        <tr>
+          <td colspan="4">
+            <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="elements"></mdb-table-pagination>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+
+    <!--******  Start of ADD Gestionnaire Model ***** !-->
+
+
+
+<form (ngSubmit)="onSaveGestionnaire()" mdbModal #addFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable" role="document">
+<div class="modal-content">
+ <div class="modal-header text-center teal white-text">
+   <h4 class="modal-title w-100 font-weight-bold">Ajouter un Gestionnaire</h4>
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="addFrame.hide()">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body mx-3">
+   <div class="md-form">
+     <mdb-icon fas icon="pen-fancy" class="prefix teal-text"></mdb-icon>
+     <input type="text" id="form34" class="form-control" mdbInput mdbValidate name="nom"  [(ngModel)]="gestionnaire.nom">
+     <label for="form34">Nom: </label>
+   </div>  
+   
+   <div class="md-form">
+    <mdb-icon fas icon="pen-fancy" class="prefix teal-text"></mdb-icon>
+     <input type="text" id="form1" class="form-control" mdbInput mdbValidate name="prenom" [(ngModel)]="gestionnaire.prenom">
+     <label for="form1">Prénom: </label>
+   </div>
+   <div class="md-form">
+       <mdb-icon fas icon="at" class="prefix teal-text"></mdb-icon>
+     <input type="email" id="form2" class="form-control" mdbInput mdbValidate name="email" [(ngModel)]="gestionnaire.email">
+     <label for="form2">Email: </label>
+   </div>
+   <div class="md-form ">
+    <mdb-icon fas icon="key" class="prefix teal-text"></mdb-icon>
+  <input type="password" id="form7" class="form-control" mdbInput mdbValidate name="password" [(ngModel)]="gestionnaire.password">
+  <label for="form7">Password: </label>
+</div>
+   <div class="md-form">
+       <mdb-icon fas icon="phone" class="prefix teal-text"></mdb-icon>
+     <input type="tel" id="form3" class="form-control" mdbInput mdbValidate name="tel" [(ngModel)]="gestionnaire.tel" >
+     <label for="form3">Tel: </label>
+   </div>
+   <div class="md-form">
+    <mdb-icon fas icon="hashtag" class="prefix teal-text"></mdb-icon>
+    <input type="text" id="form4" class="form-control" mdbInput mdbValidate name="cin" [(ngModel)]="gestionnaire.cin">
+     <label for="form4">CIN: </label>
+   </div>
+
+   <div class="form-group">
+    <mdb-icon fas icon="building" class="prefix teal-text mr-1" size="2x"></mdb-icon>
+    <label for="form5">Structure:</label>
+     <select id="form5" class="browser-default custom-select form-control"  name="uniteStructurelle" [(ngModel)]="gestionnaire.uniteStructurelle">
+      <option  *ngFor="let u of listUnites"  [ngValue]="u._links.self.href" 
+        >{{u.intitule}}</option>
+    </select>
+     
+   </div>
+
+ </div>
+ <div class="modal-footer d-flex justify-content-center">
+   <button type="submit" mdbBtn color="teal"  (click)="addFrame.hide()" class="waves-light" mdbWavesEffect data-toggle="modal"
+   data-target="#basicExample">Ajouter
+     <mdb-icon far icon="paper-plane" class="ml-1"></mdb-icon>
+   </button>
+
+ </div>
+</div>
+</div>
+</form>
+
+                     <!-- ********* End Add Gestionnaire Modal ********* -->
+
+                          <!--******  Start of Edit Gestionnaire Model ***** !-->
+
+
+
+<form  #itemForm="ngForm" (ngSubmit)="onEditGestionnaire(itemForm.value)" mdbModal #editFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div *ngIf="currentGestionnaire" class="modal-content">
+ <div class="modal-header text-center teal white-text">
+   <h4 class="modal-title w-100 font-weight-bold">Editer un Gestionnaire</h4>
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="editFrame.hide()">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body mx-3">
+   <div class="md-form">
+     <mdb-icon fas icon="pen-fancy" class="prefix teal-text"></mdb-icon>
+     <input type="text" id="form34" class="form-control" mdbInput mdbValidate name="nom"  [(ngModel)]="currentGestionnaire.nom">
+     <label for="form34">Nom: </label>
+   </div>  
+   
+   <div class="md-form">
+    <mdb-icon fas icon="pen-fancy" class="prefix teal-text"></mdb-icon>
+    <input type="text" id="form1" class="form-control" mdbInput mdbValidate name="prenom" [(ngModel)]="currentGestionnaire.prenom">
+     <label for="form1">Prénom: </label>
+   </div>
+   <div class="md-form">
+       <mdb-icon fas icon="at" class="prefix teal-text"></mdb-icon>
+     <input type="email" id="form2" class="form-control" mdbInput mdbValidate name="email" [(ngModel)]="currentGestionnaire.email">
+     <label for="form2">Email: </label>
+   </div>
+   <div class="md-form">
+       <mdb-icon fas icon="phone" class="prefix teal-text"></mdb-icon>
+     <input type="tel" id="form3" class="form-control" mdbInput mdbValidate name="tel" [(ngModel)]="currentGestionnaire.tel" >
+     <label for="form3">Tel: </label>
+   </div>
+   <div class="md-form">
+     <mdb-icon fas icon="hashtag" class="prefix teal-text"></mdb-icon>
+     <input type="text" id="form4" class="form-control" mdbInput mdbValidate name="cin" [(ngModel)]="currentGestionnaire.cin">
+     <label for="form4">CIN: </label>
+   </div>
+   <div class="form-group">
+    <mdb-icon fas icon="building" class="prefix teal-text mr-1" size="2x"></mdb-icon>
+    <label for="form5">Structure:</label>
+     <select   id="form5" class="browser-default custom-select form-control" name="uniteStructurelle" [(ngModel)]="currentGestionnaire.uniteStructurelle.id"> 
+      <option  *ngFor="let u of listUnites"  [value]="u.id" 
+         >{{u.intitule}}</option>
+    </select>
+                                
+     
+   </div>
+
+
+ </div>
+ <div class="modal-footer d-flex justify-content-center">
+   <button type="submit" mdbBtn color="teal"  (click)="editFrame.hide()" class="waves-light" mdbWavesEffect data-toggle="modal"
+   data-target="#basicExample">Editer
+     <mdb-icon far icon="paper-plane" class="ml-1"></mdb-icon>
+   </button>
+
+ 
+
+ </div>
+</div>
+</div>
+</form>
+
+                     <!-- ********* End Edit Gestionnaire Modal ********* -->
+</div>

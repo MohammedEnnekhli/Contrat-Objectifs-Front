@@ -23,13 +23,26 @@ $mySecondColor:#C158DC;
     color: white;
 }
 
-.date{
-    color: $myFirstColor;
-
+.header{
+  padding: 20px;
+  background: #fff;
+  border-bottom: 1px solid #e0e4e8;
 }
 
-.date span{
-    margin: 10px;
-    font-weight: bold;
+.content{
+  margin: 40px;
 }
 
+
+@media all and (min-width: 768px) {
+    tr  {
+      td {
+        vertical-align: middle !important;
+      }
+      span {
+        &:not([class]) {
+          padding: 1rem 1rem;
+        }
+      }
+    }
+  }

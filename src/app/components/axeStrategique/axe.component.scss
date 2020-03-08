@@ -1,0 +1,43 @@
+$myFirstColor:  #6A1B9A;
+$mySecondColor:#C158DC;
+
+
+*{
+
+    box-sizing: border-box;
+    
+    //font-family: 'Josefin Sans', sans-serif;
+  }
+
+.btn-outline-purple {
+    border: 2px solid $mySecondColor !important;
+    background-color: transparent!important;
+    color: $mySecondColor!important;
+}
+
+.btn-outline-purple:hover, .active {
+    background-color: $mySecondColor!important;
+    color: #fff!important;
+    border: none !important;
+}
+
+.intitule{
+    border-radius: 5px;
+    background-color: $myFirstColor;
+   
+
+}
+.intitule h4{
+    color: white;
+}
+
+ .header{
+    padding: 20px;
+    background: #fff;
+    border-bottom: 1px solid #e0e4e8;
+  }
+  
+.content{
+    margin: 40px;
+  }
+

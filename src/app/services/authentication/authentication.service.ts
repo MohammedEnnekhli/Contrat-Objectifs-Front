@@ -30,17 +30,20 @@ export class AuthenticationService {
   loadUserIdentity() {
     const jwtHelper = new JwtHelperService();
     const jwtObject = jwtHelper.decodeToken(this.jwt);
-    this.username = jwtObject.sub;
-    this.roles = jwtObject.roles;
-    console.log(this.username);
-    console.log(this.roles);
+    if(jwtObject){
+      this.username = jwtObject.sub;
+      this.roles = jwtObject.roles;
+      //console.log(this.username);
+      //console.log(this.roles);
+    }
+    
   }
 
   isAdmin(): boolean  {
     return this.roles === undefined ? false : this.roles.indexOf('ADMIN') >= 0;
   }
   isSimple(): boolean {
-    return  this.roles === undefined ? false : this.roles.indexOf('PROF') >= 0;
+    return  this.roles === undefined ? false : this.roles.indexOf('ADMIN') < 0;
   }
 
   isAuthenticated(): boolean {
@@ -60,6 +63,7 @@ export class AuthenticationService {
 
   logOut() {
      localStorage.removeItem('token');
+     localStorage.removeItem('unites');
      this.initParam();
   }
 

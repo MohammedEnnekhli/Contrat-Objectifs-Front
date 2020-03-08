@@ -1,0 +1,2 @@
+-Interdir des comptes inactifs de se connécter. 
+-Essayer de rafraîchir le tableau des gestionnaires sans appeler les données depuis le serveur. 

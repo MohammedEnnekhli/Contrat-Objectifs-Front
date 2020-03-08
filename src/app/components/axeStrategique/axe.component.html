@@ -1,0 +1,384 @@
+
+ <div  class="header">
+  <h2 class="font-weight-bold pink-text text-center text-uppercase" >{{unite?.intitule}}</h2>
+</div>  
+  <div class="content">
+<button type="button" (click)="backClicked()" mdbBtn color="indigo">Back<mdb-icon fas icon="arrow-circle-left" 
+  class="ml-2" aria-hidden="true"></mdb-icon></button>
+  
+<ul class="nav justify-content-center">
+    <li *ngFor="let axe of axesList; let i = index" class="nav-item">
+        <button (click)="onAxe(axe)"  [ngClass]="axe==currentAxe?'active':'btn-outline-purple'" type="button" mdbBtn outline="true" mdbWavesEffect mdbBtn >Axe {{i+1}}</button>
+    </li>
+    <li><button type="button" mdbBtn outline="true" mdbWavesEffect color="purple"
+        data-toggle="modal" data-target="#basicExample" (click)="AddFrame.show()">Ajouter<mdb-icon fas icon="plus-circle" class="ml-2" aria-hidden="true"></mdb-icon></button>
+    </li>
+</ul>
+                     
+
+      <h2 class="text-center font-weight-bold deep-purple-text my-5" >{{currentAxe?.intitule}}</h2>
+
+    
+    <div class="w-responsive mx-auto">
+      <ul class="nav  justify-content-center">
+        <li class="nav-item">
+          <button type="button" mdbBtn color="pink" class="waves-light" data-toggle="modal" data-target="#AxeInfos" (click)="gestionnaireFrame.show();getAxeInfos()"
+          mdbWavesEffect>Axe Infos</button>
+        </li>
+        <li class="nav-item"> 
+          <button type="button" mdbBtn color="info" class="waves-light" data-toggle="modal" data-target="#basicExample"
+           (click)="editFrame.show()">Editer</button>
+        </li>
+        <li class="nav-item"> 
+          <button type="button" mdbBtn color="red" class="waves-light" data-toggle="modal" data-target="#basicExample"
+          mdbWavesEffect (click)="deleteFrame.show()">Supprimer</button>
+        </li>
+        <li class="nav-item">
+          <button type="button" mdbBtn  mdbWavesEffect [routerLink]="['/objectif',currentAxe?.id]" class="waves-light " color="teal">Objectifs</button>
+        </li>
+      </ul>
+      <mdb-card class="w-responsive mx-auto my-3" borderColor="border-secondary">
+        <mdb-card-header class="font-weight-bold white-text" style="box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+        background: linear-gradient(40deg, #ff6ec4, #7873f5) !important" 
+         >Description</mdb-card-header>
+        <mdb-card-body>
+          <mdb-card-text class="purple-text">{{currentAxe?.description}}</mdb-card-text>
+        </mdb-card-body>
+      </mdb-card>
+      <p class="my-4 text-secondary font-weight-bold">Taux d'avancement </p> 
+      <div class="progress">
+          <div class="progress-bar"  role="progressbar" [style.width.%]="currentAxe?.tauxAvancement" style="background-color: #6A1B9A;font-weight: bold;"
+              aria-valuenow="'currentAxe?.tauxAvancement'" aria-valuemin="0" aria-valuemax="100">{{currentAxe?.tauxAvancement |number:'2.0-0'}}%</div>
+      </div>
+      
+      <ul class="list-group mt-4  border border-secondary rounded">
+       <li class="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
+         Date début prévisionnelle 
+         <mdb-badge pill="true" color="purple darken-2"> {{currentAxe?.dateDebutPrevisionnel}}</mdb-badge>
+       </li>
+       <li class="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
+         Date début réel
+         <mdb-badge pill="true" color="purple darken-2"> {{currentAxe?.dateDebutReel}}</mdb-badge>
+       </li>
+       <li class="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
+         Date fin prévisionnelle
+         <mdb-badge pill="true" color="purple darken-2">{{currentAxe?.dateFinPrevisionnel}}</mdb-badge>
+       </li>
+       <li class="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
+         Date fin réel
+         <mdb-badge pill="true" color="purple darken-2">{{currentAxe?.dateFinReel}}</mdb-badge>
+       </li>
+     </ul>
+
+    </div>
+
+    
+     
+     
+
+                               <!--******  Modal of Add a Taxe ***** !-->
+
+
+
+<form (ngSubmit)="onSaveAxe()" mdbModal #AddFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center pink white-text">
+        <h4 class="modal-title w-100 font-weight-bold">Ajouter un Axe</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="AddFrame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <mdb-icon fas icon="pen-fancy" class="prefix pink-text"></mdb-icon>
+          <input type="text" id="form34" class="form-control" mdbInput mdbValidate name="intitule"  [(ngModel)]="axe.intitule" required>
+          <label for="form34">Intitulé: </label>
+        </div>  
+        
+        <div class="md-form mb-5">
+          <mdb-icon fas icon="percent" class="prefix pink-text"></mdb-icon>
+          <input type="text" id="form32" class="form-control" mdbInput mdbValidate name="tauxAvancement" [(ngModel)]="axe.tauxAvancement">
+          <label for="form32">Taux d'avancement</label>
+        </div>
+        <div class="md-form mb-5">
+            <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+          <input type="date" id="form1" class="form-control" mdbInput mdbValidate name="dateDebutPrevisionnel" [(ngModel)]="axe.dateDebutPrevisionnel">
+          <label for="form1">Date de début prévisionnelle: </label>
+        </div>
+        <div class="md-form mb-5">
+            <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+          <input type="date" id="form2" class="form-control" mdbInput mdbValidate name="dateDebutReel" [(ngModel)]="axe.dateDebutReel">
+          <label for="form2">Date de début réelle: </label>
+        </div>
+        <div class="md-form mb-5">
+            <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+          <input type="date" id="form3" class="form-control" mdbInput mdbValidate name="dateFinPrevisionnel" [(ngModel)]="axe.dateFinPrevisionnel" >
+          <label for="form3">Date de fin prévisionnelle: </label>
+        </div>
+        <div class="md-form mb-5">
+            <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+          <input type="date" id="form4" class="form-control" mdbInput mdbValidate name="dateFinReel" [(ngModel)]="axe.dateFinReel">
+          <label for="form4">Date de fin réelle: </label>
+        </div>
+
+        <div class="md-form">
+          <mdb-icon fas icon="file-alt" class="prefix pink-text"></mdb-icon>
+          <textarea type="text" id="form8" class="md-textarea form-control" rows="1" mdbInput mdbValidate
+                name="description"    [(ngModel)]="axe.description" required></textarea>
+          <label for="form8">Déscription</label>
+          
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" mdbBtn color="pink" (click)="isAdd?successFrame.show():dangerFrame.show() " (click)="AddFrame.hide()" class="waves-light" mdbWavesEffect data-toggle="modal"
+        data-target="#basicExample">Ajouter
+          <mdb-icon far icon="paper-plane" class="ml-1"></mdb-icon>
+        </button>
+
+      
+
+      </div>
+    </div>
+  </div>
+</form>
+
+                          <!-- ***** End Add Axe Modal **** -->
+
+
+                        <!--******  Start of Edit Axe Model ***** !-->
+
+
+
+<form (ngSubmit)="onEditAxe()" mdbModal #editFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable" role="document">
+<div *ngIf="currentAxe" class="modal-content">
+ <div class="modal-header text-center pink white-text">
+   <h4 class="modal-title w-100 font-weight-bold">Editer un Axe</h4>
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="editFrame.hide()">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body mx-3">
+   <div class="md-form mb-5">
+     <mdb-icon fas icon="pen-fancy" class="prefix pink-text"></mdb-icon>
+     <input type="text" id="form34" class="form-control" mdbInput mdbValidate name="intitule"  [(ngModel)]="currentAxe.intitule">
+     <label for="form34">Intitulé: </label>
+   </div>  
+   
+   <div class="md-form mb-5">
+       <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+     <input type="date" id="form1" class="form-control" mdbInput mdbValidate name="dateDebutPrevisionnel" [(ngModel)]="currentAxe.dateDebutPrevisionnel">
+     <label for="form1">Date de début prévisionnelle: </label>
+   </div>
+   <div class="md-form mb-5">
+       <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+     <input type="date" id="form2" class="form-control" mdbInput mdbValidate name="dateDebutReel" [(ngModel)]="currentAxe.dateDebutReel">
+     <label for="form2">Date de début réelle: </label>
+   </div>
+   <div class="md-form mb-5">
+       <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+     <input type="date" id="form3" class="form-control" mdbInput mdbValidate name="dateFinPrevisionnel" [(ngModel)]="currentAxe.dateFinPrevisionnel" >
+     <label for="form3">Date de fin prévisionnelle: </label>
+   </div>
+   <div class="md-form mb-5">
+       <mdb-icon far icon="calendar-alt" class="prefix pink-text"></mdb-icon>
+     <input type="date" id="form4" class="form-control" mdbInput mdbValidate name="dateFinReel" [(ngModel)]="currentAxe.dateFinReel">
+     <label for="form4">Date de fin réelle: </label>
+   </div>
+
+   <div class="md-form">
+     <mdb-icon fas icon="file-alt" class="prefix pink-text"></mdb-icon>
+     <textarea type="text" id="form8" class="md-textarea form-control" rows="1" mdbInput mdbValidate
+           name="description"    [(ngModel)]="currentAxe.description"></textarea>
+     <label for="form8">Déscription</label>
+     
+   </div>
+
+ </div>
+ <div class="modal-footer d-flex justify-content-center">
+   <button type="submit" mdbBtn color="pink"  (click)="editFrame.hide()" class="waves-light" mdbWavesEffect data-toggle="modal"
+   data-target="#basicExample">Editer
+     <mdb-icon far icon="paper-plane" class="ml-1"></mdb-icon>
+   </button>
+
+ 
+
+ </div>
+</div>
+</div>
+</form>
+
+                     <!-- ********* End Edit Axe Modal ********* -->
+
+                     <!-- ************* start delete Modal-->
+
+
+<div mdbModal #deleteFrame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Êtes-vous sûre ?</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <mdb-icon fas icon="times" size="4x" class="animated rotateIn"></mdb-icon>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a  mdbBtn color="danger" outline="true" class="waves-effect"
+          mdbWavesEffect (click)="deleteFrame.hide(); onDeleteAxe()">Oui</a>
+        <a type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="deleteFrame.hide()">Non</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+                     <!-- ********** End delete Modal -->
+
+                          <!-- start success Model -->
+
+<div mdbModal #successFrame="mdbModal" class="modal fade right" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-success modal-side modal-bottom-right" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">Succès de l'ajout</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="successFrame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          <mdb-icon fas icon="check" size="4x" class="mb-3 animated rotateIn"></mdb-icon>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="success" class="waves-effect" mdbWavesEffect (click)="successFrame.hide()">Fermer
+          <mdb-icon far icon="window-close" class="ml-1"></mdb-icon>
+        </a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+                     <!--  End Success Model-->
+
+
+                     <!--  Start Faild Model-->
+
+                   
+                   <div mdbModal #dangerFrame="mdbModal" class="modal fade right" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                     <div class="modal-dialog modal-notify modal-danger modal-side modal-bottom-right" role="document">
+                       <!--Content-->
+                       <div class="modal-content">
+                         <!--Header-->
+                         <div class="modal-header">
+                           <p class="heading lead">Échec de l'ajout</p>
+                   
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dangerFrame.hide()">
+                             <span aria-hidden="true" class="white-text">&times;</span>
+                           </button>
+                         </div>
+                   
+                         <!--Body-->
+                         <div class="modal-body">
+                           <div class="text-center">
+                             <mdb-icon fas icon="check" size="4x" class="mb-3 animated rotateIn"></mdb-icon>
+                           </div>
+                         </div>
+                   
+                         <!--Footer-->
+                         <div class="modal-footer justify-content-center">
+                           <a type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect (click)="dangerFrame.hide()">Fermer
+                             <mdb-icon far icon="window-close" class="ml-1"></mdb-icon> 
+                           </a>
+                         </div>
+                       </div>
+                       <!--/.Content-->
+                     </div>
+                   </div>
+
+                     <!-- End Faild Model -->
+
+                     <!-- Start Gestionnaires Modal -->
+
+
+<div mdbModal #gestionnaireFrame="mdbModal" class="modal fade" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header white-text font-weight-bold purple">
+        <h4 class="modal-title " id="myModalLabel">Axe créé par {{axeCreatedBy?.prenom}} {{axeCreatedBy?.nom}}</h4>
+        <button type="button" class="close rgba-white-slight" data-dismiss="modal" aria-label="Close" (click)="gestionnaireFrame.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <h2 class="deep-purple-text">Liste des évaluations</h2>
+        <table mdbTable>
+          <thead class="pink white-text">
+            <tr>
+              <th scope="col">Prénom </th>
+              <th scope="col">Nom </th>
+              <th scope="col">Date </th>
+              <th scope="col">Taux d'avancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr mdbTableCol *ngFor="let axeEval of axeEvaluation">
+              <td>{{axeEval.gestionnaire.prenom}}</td>
+              <td>{{axeEval.gestionnaire.nom}}</td>
+              <td>{{axeEval.dateEvaluation}}</td>
+              <td>{{axeEval.tauxAvancement |number:'2.0-0'}}%</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <h2 class="deep-purple-text">liste des modifications</h2>
+        <table mdbTable>
+          <thead class="pink white-text">
+            <tr>
+              <th scope="col">Prénom </th>
+              <th scope="col">Nom </th>
+              <th scope="col">Date </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr mdbTableCol *ngFor="let axeMod of axeModification">
+              <td>{{axeMod.gestionnaire.prenom}}</td>
+              <td>{{axeMod.gestionnaire.nom}}</td>
+              <td>{{axeMod.dateModification}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="pink" outline="true" class="waves-light" mdbWavesEffect data-dismiss="modal" (click)="gestionnaireFrame.hide()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+                      <!-- End Gestionnaires Modal -->
+  </div>

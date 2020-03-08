@@ -1,19 +1,16 @@
-export class Axe {
+import { Objectif } from './objectif';
 
+export class Action {
     public id:number;
     public intitule:string;
-    public description:string;
     public tauxAvancement:number;
     public  dateDebutPrevisionnel:Date;
     public dateFinPrevisionnel:Date;
     public dateDebutReel:Date;
     public dateFinReel:Date;
-    public uniteStructurelle:any;
+    public objectif:Objectif;
     public createdByGestionnaire:any;
-    public evaluationAxeStrategiques:any;
-    public modificationAxeStrategiques:any;
     public _links:any;
     
     constructor(){}
-
 }

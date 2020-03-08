@@ -38,9 +38,11 @@
       
             <!-- Sign in button -->
             <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0" mdbWavesEffect
-              type="submit" routerLink="/home">Sign in</button>
+              type="submit">Sign in</button>
 
-      
+             <span *ngIf="message" class="red-text font-weight-bold">{{message}}</span>
+           
+
           </form>
           <!-- Form -->
       

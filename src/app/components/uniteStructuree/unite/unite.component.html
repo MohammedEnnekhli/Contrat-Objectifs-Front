@@ -1,0 +1,20 @@
+<div  class="header">
+  <h2 class="font-weight-bold pink-text text-center text-uppercase" >{{types}}</h2>
+</div> 
+<div class="content">
+  <div class="container">
+    <div class="card-columns">
+      <div *ngFor="let u of unites" class="card " style="background-color: #d500f9;">
+        <div class="card-body text-center" >
+        <p class="card-text"><a class="text-white font-weight-bold" [routerLink]="['/unite',u.id]">{{u.intitule}}</a></p>  
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+
+
+
+
+
